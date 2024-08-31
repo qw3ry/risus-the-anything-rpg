@@ -54,7 +54,8 @@ Hooks.once('init', function () {
   };
   CONFIG.Item.documentClass = RisusItem;
   CONFIG.Item.dataModels = {
-    gear: models.RisusGear
+    gear: models.RisusGear,
+    feature: models.RisusFeature
   };
 
   // Active Effects are never copied to the Actor,

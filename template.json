@@ -12,15 +12,18 @@
     }
   },
   "Item": {
-    "types": ["gear"],
+    "types": ["gear", "feature"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
-        "description": "",
-        "quantity": 1
+        "description": ""
       }
     },
     "gear": {
+      "templates": ["base"],
+      "quantity": 1
+    },
+    "feature": {
       "templates": ["base"]
     }
   }
