@@ -4,7 +4,7 @@ export const RISUS = {};
  * The set of Ability Scores used within the system.
  * @type {Object}
  */
-RISUS.abilities = {
+/*RISUS.abilities = {
   str: 'RISUS.Ability.Str.long',
   dex: 'RISUS.Ability.Dex.long',
   con: 'RISUS.Ability.Con.long',
@@ -21,3 +21,4 @@ RISUS.abilityAbbreviations = {
   wis: 'RISUS.Ability.Wis.abbr',
   cha: 'RISUS.Ability.Cha.abbr',
 };
+*/

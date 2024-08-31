@@ -1,13 +1,5 @@
 {
   "RISUS": {
-    "Ability": {
-      "Str": { "long": "Strength", "abbr": "str" },
-      "Con": { "long": "Constitution", "abbr": "con" },
-      "Dex": { "long": "Dexterity", "abbr": "dex" },
-      "Int": { "long": "Intelligence", "abbr": "int" },
-      "Wis": { "long": "Wisdom", "abbr": "wis" },
-      "Cha": { "long": "Charisma", "abbr": "cha" }
-    },
     "SheetLabels": {
       "Actor": "Risus Actor Sheet",
       "Item": "Risus Item Sheet"
@@ -17,32 +9,20 @@
         "Biography": "Biography",
         "Features": "Features",
         "Gear": "Gear",
-        "Spells": "Spells",
         "Effects": "Effects"
       },
       "base": {
         "FIELDS": {
-          "biography": {"label": "Biography"},
-          "health": {
-            "value": {"label": "Health"},
-            "max": {"label": "Maximum Health"}
-          },
-          "power": {
-            "value": {"label": "Power"},
-            "max": {"label": "Maximum Power"}
-          }
+          "biography": {"label": "Biography"}
         }
       },
       "Character": {
         "FIELDS": {
-          "attributes.level.value": {"label": "Level"}
         }
       },
       "NPC": {
         "FIELDS": {
-          "cr": {"label": "CR"}
-        },
-        "xp": {"label": "XP"}
+        }
       }
     },
     "Item": {
@@ -60,13 +40,6 @@
           "quantity": {"label": "Quantity"},
           "weight": {"label": "Weight"}
         }
-      },
-      "Spell": {
-        "FIELDS": {
-          "level": {"label": "Spell Level"}
-        },
-        "SpellLVL": "Level {level} Spells",
-        "AddLVL": "Add LVL {level}"
       }
     },
     "Effect": {
@@ -79,13 +52,11 @@
   },
   "TYPES": {
     "Actor": {
-      "character": "Character",
-      "npc": "NPC"
+      "character": "Character"
     },
     "Item": {
       "gear": "Gear",
-      "feature": "Feature",
-      "spell": "Spell"
+      "feature": "Feature"
     }
   }
 }

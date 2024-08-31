@@ -54,9 +54,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     gear: {
       template: 'systems/risus-the-anything-rpg/templates/actor/gear.hbs',
     },
-    spells: {
-      template: 'systems/risus-the-anything-rpg/templates/actor/spells.hbs',
-    },
     effects: {
       template: 'systems/risus-the-anything-rpg/templates/actor/effects.hbs',
     },
@@ -72,10 +69,7 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'gear', 'spells', 'effects');
-        break;
-      case 'npc':
-        options.parts.push('gear', 'effects');
+        options.parts.push('features', 'gear', 'effects');
         break;
     }
   }
@@ -113,7 +107,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'features':
-      case 'spells':
       case 'gear':
         context.tab = context.tabs[partId];
         break;
@@ -184,10 +177,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'gear';
           tab.label += 'Gear';
           break;
-        case 'spells':
-          tab.id = 'spells';
-          tab.label += 'Spells';
-          break;
         case 'effects':
           tab.id = 'effects';
           tab.label += 'Effects';
@@ -211,18 +200,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     // this sheet does with spells
     const gear = [];
     const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: [],
-    };
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -234,22 +211,11 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'feature') {
         features.push(i);
       }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
-        }
-      }
-    }
-
-    for (const s of Object.values(spells)) {
-      s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     }
 
     // Sort then assign
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.spells = spells;
   }
 
   /**

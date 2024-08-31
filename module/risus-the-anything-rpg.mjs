@@ -50,14 +50,11 @@ Hooks.once('init', function () {
   // for the base actor/item classes - they are included
   // with the Character/NPC as part of super.defineSchema()
   CONFIG.Actor.dataModels = {
-    character: models.RisusCharacter,
-    npc: models.RisusNPC,
+    character: models.RisusCharacter
   };
   CONFIG.Item.documentClass = RisusItem;
   CONFIG.Item.dataModels = {
-    gear: models.RisusGear,
-    feature: models.RisusFeature,
-    spell: models.RisusSpell,
+    gear: models.RisusGear
   };
 
   // Active Effects are never copied to the Actor,
