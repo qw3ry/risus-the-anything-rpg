@@ -1,5 +1,3 @@
-import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
-
 const { api, sheets } = foundry.applications;
 
 /**
@@ -18,11 +16,7 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
   static DEFAULT_OPTIONS = {
     classes: ['risus-the-anything-rpg', 'item'],
     actions: {
-      onEditImage: this._onEditImage,
-      viewDoc: this._viewEffect,
-      createDoc: this._createEffect,
-      deleteDoc: this._deleteEffect,
-      toggleEffect: this._toggleEffect,
+      onEditImage: this._onEditImage
     },
     form: {
       submitOnChange: true,
@@ -52,9 +46,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     attributesGear: {
       template: 'systems/risus-the-anything-rpg/templates/item/attribute-parts/gear.hbs',
     },
-    effects: {
-      template: 'systems/risus-the-anything-rpg/templates/item/effects.hbs',
-    },
   };
 
   /** @override */
@@ -67,10 +58,8 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'feature':
-        options.parts.push('attributesFeature', 'effects');
-        break;
       case 'gear':
-        options.parts.push('attributesGear');
+        options.parts.push('attributesFeature');
         break;
     }
   }
@@ -103,14 +92,13 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
 
   /** @override */
   async _preparePartContext(partId, context) {
+    // Necessary for preserving active tab on re-render
+    context.tab = context.tabs[partId];
     switch (partId) {
       case 'attributesFeature':
       case 'attributesGear':
-        // Necessary for preserving active tab on re-render
-        context.tab = context.tabs[partId];
         break;
       case 'description':
-        context.tab = context.tabs[partId];
         // Enrich description info for display
         // Enrichment turns text like `[[/r 1d20]]` into buttons
         context.enrichedDescription = await TextEditor.enrichHTML(
@@ -124,11 +112,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
             relativeTo: this.item,
           }
         );
-        break;
-      case 'effects':
-        context.tab = context.tabs[partId];
-        // Prepare active effects for easier access
-        context.effects = prepareActiveEffectCategories(this.item.effects);
         break;
     }
     return context;
@@ -144,7 +127,7 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     // If you have sub-tabs this is necessary to change
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'description';
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'attributes';
     return parts.reduce((tabs, partId) => {
       const tab = {
         cssClass: '',
@@ -166,9 +149,8 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
           break;
         case 'attributesFeature':
         case 'attributesGear':
-        case 'effects':
-          tab.id = 'effects';
-          tab.label += 'Effects';
+          tab.id = 'attributes';
+          tab.label += 'Attributes';
           break;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
@@ -225,91 +207,7 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     return fp.browse();
   }
 
-  /**
-   * Renders an embedded document's sheet
-   *
-   * @this RisusItemSheet
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _viewEffect(event, target) {
-    const effect = this._getEffect(target);
-    effect.sheet.render(true);
-  }
-
-  /**
-   * Handles item deletion
-   *
-   * @this RisusItemSheet
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _deleteEffect(event, target) {
-    const effect = this._getEffect(target);
-    await effect.delete();
-  }
-
-  /**
-   * Handle creating a new Owned Item or ActiveEffect for the actor using initial data defined in the HTML dataset
-   *
-   * @this RisusItemSheet
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @private
-   */
-  static async _createEffect(event, target) {
-    // Retrieve the configured document class for ActiveEffect
-    const aeCls = getDocumentClass('ActiveEffect');
-    // Prepare the document creation data by initializing it a default name.
-    // As of v12, you can define custom Active Effect subtypes just like Item subtypes if you want
-    const effectData = {
-      name: aeCls.defaultName({
-        // defaultName handles an undefined type gracefully
-        type: target.dataset.type,
-        parent: this.item,
-      }),
-    };
-    // Loop through the dataset and add it to our effectData
-    for (const [dataKey, value] of Object.entries(target.dataset)) {
-      // These data attributes are reserved for the action handling
-      if (['action', 'documentClass'].includes(dataKey)) continue;
-      // Nested properties require dot notation in the HTML, e.g. anything with `system`
-      // An example exists in spells.hbs, with `data-system.spell-level`
-      // which turns into the dataKey 'system.spellLevel'
-      foundry.utils.setProperty(effectData, dataKey, value);
-    }
-
-    // Finally, create the embedded document!
-    await aeCls.create(effectData, { parent: this.item });
-  }
-
-  /**
-   * Determines effect parent to pass to helper
-   *
-   * @this RisusItemSheet
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @private
-   */
-  static async _toggleEffect(event, target) {
-    const effect = this._getEffect(target);
-    await effect.update({ disabled: !effect.disabled });
-  }
-
   /** Helper Functions */
-
-  /**
-   * Fetches the row with the data for the rendered embedded document
-   *
-   * @param {HTMLElement} target  The element with the action
-   * @returns {HTMLLIElement} The document's row
-   */
-  _getEffect(target) {
-    const li = target.closest('.effect');
-    return this.item.effects.get(li?.dataset?.effectId);
-  }
 
   /**
    *
@@ -350,12 +248,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
 
     let dragData = null;
 
-    // Active Effect
-    if (li.dataset.effectId) {
-      const effect = this.item.effects.get(li.dataset.effectId);
-      dragData = effect.toDragData();
-    }
-
     if (!dragData) return;
 
     // Set data transfer
@@ -382,8 +274,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
 
     // Handle different data types
     switch (data.type) {
-      case 'ActiveEffect':
-        return this._onDropActiveEffect(event, data);
       case 'Actor':
         return this._onDropActor(event, data);
       case 'Item':
@@ -391,63 +281,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
       case 'Folder':
         return this._onDropFolder(event, data);
     }
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle the dropping of ActiveEffect data onto an Actor Sheet
-   * @param {DragEvent} event                  The concluding DragEvent which contains drop data
-   * @param {object} data                      The data transfer extracted from the event
-   * @returns {Promise<ActiveEffect|boolean>}  The created ActiveEffect object or false if it couldn't be created.
-   * @protected
-   */
-  async _onDropActiveEffect(event, data) {
-    const aeCls = getDocumentClass('ActiveEffect');
-    const effect = await aeCls.fromDropData(data);
-    if (!this.item.isOwner || !effect) return false;
-
-    if (this.item.uuid === effect.parent?.uuid)
-      return this._onEffectSort(event, effect);
-    return aeCls.create(effect, { parent: this.item });
-  }
-
-  /**
-   * Sorts an Active Effect based on its surrounding attributes
-   *
-   * @param {DragEvent} event
-   * @param {ActiveEffect} effect
-   */
-  _onEffectSort(event, effect) {
-    const effects = this.item.effects;
-    const dropTarget = event.target.closest('[data-effect-id]');
-    if (!dropTarget) return;
-    const target = effects.get(dropTarget.dataset.effectId);
-
-    // Don't sort on yourself
-    if (effect.id === target.id) return;
-
-    // Identify sibling items based on adjacent HTML elements
-    const siblings = [];
-    for (let el of dropTarget.parentElement.children) {
-      const siblingId = el.dataset.effectId;
-      if (siblingId && siblingId !== effect.id)
-        siblings.push(effects.get(el.dataset.effectId));
-    }
-
-    // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(effect, {
-      target,
-      siblings,
-    });
-    const updateData = sortUpdates.map((u) => {
-      const update = u.update;
-      update._id = u.target._id;
-      return update;
-    });
-
-    // Perform the update
-    return this.item.updateEmbeddedDocuments('ActiveEffect', updateData);
   }
 
   /* -------------------------------------------- */

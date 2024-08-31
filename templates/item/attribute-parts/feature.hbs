@@ -1,8 +1,24 @@
 {{! Attributes Tab }}
 <section
-  class='tab attributes {{tab.cssClass}}'
-  data-group='primary'
-  data-tab='attributes'
+        class='tab attributes {{tab.cssClass}}'
+        data-group='primary'
+        data-tab='attributes'
 >
-  {{! As you add new fields, add them in here! }}
+    {{! As you add new fields, add them in here! }}
+    <div class='resource'>
+        <label class='resource-label'>{{localize 'RISUS.Item.Feature.FIELDS.rollFormula.label'}}:</label>
+        <span>{{system.formula}}</span><br>
+
+        <div class='grid grid-2col'>
+            <div class='grid-span-2'>
+                <label class='resource-label'>{{localize 'RISUS.Item.Feature.FIELDS.roll.label'}}</label>
+                <input
+                        type='text'
+                        name='system.roll'
+                        value='{{system.roll}}'
+                        data-dtype='Number'
+                />
+            </div>
+        </div>
+    </div>
 </section>

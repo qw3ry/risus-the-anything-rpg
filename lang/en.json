@@ -38,14 +38,13 @@
           "quantity": {"label": "Quantity"},
           "weight": {"label": "Weight"}
         }
+      },
+      "Feature": {
+        "FIELDS": {
+          "rollFormula": {"label": "Roll Formula"},
+          "roll": {"label": "Number of Dice"}
+        }
       }
-    },
-    "Effect": {
-      "Source": "Source",
-      "Toggle": "Toggle Effect",
-      "Temporary": "Temporary Effects",
-      "Passive": "Passive Effects",
-      "Inactive": "Inactive Effects"
     }
   },
   "TYPES": {
