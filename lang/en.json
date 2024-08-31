@@ -8,8 +8,7 @@
       "Tabs": {
         "Biography": "Biography",
         "Features": "Features",
-        "Gear": "Gear",
-        "Effects": "Effects"
+        "Gear": "Gear"
       },
       "base": {
         "FIELDS": {
@@ -28,8 +27,7 @@
     "Item": {
       "Tabs": {
         "Attributes": "Attributes",
-        "Description": "Description",
-        "Effects": "Effects"
+        "Description": "Description"
       },
       "Gear": {
         "FIELDS": {
