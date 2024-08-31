@@ -64,7 +64,7 @@
   "packs": [],
   "packFolders": [],
   "socket": false,
-  "manifest": "https://github.com/qw3ry/risus-the-anything-rpg/blob/main/system.json",
+  "manifest": "https://raw.githubusercontent.com/qw3ry/risus-the-anything-rpg/main/system.json",
   "download": "https://github.com/qw3ry/risus-the-anything-rpg/archive/refs/heads/main.zip",
   "background": "systems/risus-the-anything-rpg/assets/anvil-impact.png",
   "grid": {
