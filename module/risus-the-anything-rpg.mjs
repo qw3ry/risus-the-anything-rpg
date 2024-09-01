@@ -54,7 +54,6 @@ Hooks.once('init', function () {
   };
   CONFIG.Item.documentClass = RisusItem;
   CONFIG.Item.dataModels = {
-    gear: models.RisusGear,
     feature: models.RisusFeature
   };
 

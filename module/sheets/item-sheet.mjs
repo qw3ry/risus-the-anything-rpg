@@ -43,9 +43,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
       template:
         'systems/risus-the-anything-rpg/templates/item/attribute-parts/feature.hbs',
     },
-    attributesGear: {
-      template: 'systems/risus-the-anything-rpg/templates/item/attribute-parts/gear.hbs',
-    },
   };
 
   /** @override */
@@ -58,7 +55,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'feature':
-      case 'gear':
         options.parts.push('attributesFeature');
         break;
     }
@@ -96,7 +92,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     context.tab = context.tabs[partId];
     switch (partId) {
       case 'attributesFeature':
-      case 'attributesGear':
         break;
       case 'description':
         // Enrich description info for display
@@ -148,7 +143,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
           tab.label += 'Description';
           break;
         case 'attributesFeature':
-        case 'attributesGear':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;

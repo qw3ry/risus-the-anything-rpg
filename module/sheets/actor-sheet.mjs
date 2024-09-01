@@ -47,10 +47,7 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     },
     biography: {
       template: 'systems/risus-the-anything-rpg/templates/actor/biography.hbs',
-    },
-    gear: {
-      template: 'systems/risus-the-anything-rpg/templates/actor/gear.hbs',
-    },
+    }
   };
 
   /** @override */
@@ -63,7 +60,7 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'gear');
+        options.parts.push('features');
         break;
     }
   }
@@ -101,7 +98,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'features':
-      case 'gear':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -158,10 +154,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'features';
           tab.label += 'Features';
           break;
-        case 'gear':
-          tab.id = 'gear';
-          tab.label += 'Gear';
-          break;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
       tabs[partId] = tab;
@@ -179,15 +171,10 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     // You can just use `this.document.itemTypes` instead
     // if you don't need to subdivide a given type like
     // this sheet does with spells
-    const gear = [];
     const features = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
-      // Append to gear.
-      if (i.type === 'gear') {
-        gear.push(i);
-      }
       // Append to features.
       else if (i.type === 'feature') {
         features.push(i);
@@ -195,7 +182,6 @@ export class RisusActorSheet extends api.HandlebarsApplicationMixin(
     }
 
     // Sort then assign
-    context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
   }
 
