@@ -32,32 +32,16 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     header: {
       template: 'systems/risus-the-anything-rpg/templates/item/header.hbs',
     },
-    tabs: {
-      // Foundry-provided generic template
-      template: 'templates/generic/tab-navigation.hbs',
-    },
-    description: {
-      template: 'systems/risus-the-anything-rpg/templates/item/description.hbs',
-    },
-    attributesFeature: {
-      template:
-        'systems/risus-the-anything-rpg/templates/item/attribute-parts/feature.hbs',
-    },
+    details: {
+      template: 'systems/risus-the-anything-rpg/templates/item/details.hbs',
+    }
   };
 
   /** @override */
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'description'];
-    // Don't show the other tabs if only limited view
-    if (this.document.limited) return;
-    // Control which parts show based on document subtype
-    switch (this.document.type) {
-      case 'feature':
-        options.parts.push('attributesFeature');
-        break;
-    }
+    options.parts = ['header', 'details'];
   }
 
   /* -------------------------------------------- */
@@ -76,8 +60,6 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
       flags: this.item.flags,
       // Adding a pointer to CONFIG.RISUS
       config: CONFIG.RISUS,
-      // You can factor out context construction to helper functions
-      tabs: this._getTabs(options.parts),
       // Necessary for formInput and formFields helpers
       fields: this.document.schema.fields,
       systemFields: this.document.system.schema.fields,
@@ -86,71 +68,32 @@ export class RisusItemSheet extends api.HandlebarsApplicationMixin(
     return context;
   }
 
+  async enrich(field) {
+    // Enrich field info for display
+    // Enrichment turns text like `[[/r 1d20]]` into buttons
+    return TextEditor.enrichHTML(
+        field,
+        {
+          // Whether to show secret blocks in the finished html
+          secrets: this.document.isOwner,
+          // Data to fill in for inline rolls
+          rollData: this.actor.getRollData(),
+          // Relative UUID resolution
+          relativeTo: this.actor,
+        }
+    );
+  }
+
   /** @override */
   async _preparePartContext(partId, context) {
     // Necessary for preserving active tab on re-render
-    context.tab = context.tabs[partId];
+    //context.tab = context.tabs[partId];
     switch (partId) {
-      case 'attributesFeature':
-        break;
-      case 'description':
-        // Enrich description info for display
-        // Enrichment turns text like `[[/r 1d20]]` into buttons
-        context.enrichedDescription = await TextEditor.enrichHTML(
-          this.item.system.description,
-          {
-            // Whether to show secret blocks in the finished html
-            secrets: this.document.isOwner,
-            // Data to fill in for inline rolls
-            rollData: this.item.getRollData(),
-            // Relative UUID resolution
-            relativeTo: this.item,
-          }
-        );
+      case 'details':
+        context.enrichedFormula = await this.enrich(`[[/r ${this.item.system.formula}]]`);
         break;
     }
     return context;
-  }
-
-  /**
-   * Generates the data for the generic tab navigation template
-   * @param {string[]} parts An array of named template parts to render
-   * @returns {Record<string, Partial<ApplicationTab>>}
-   * @protected
-   */
-  _getTabs(parts) {
-    // If you have sub-tabs this is necessary to change
-    const tabGroup = 'primary';
-    // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'attributes';
-    return parts.reduce((tabs, partId) => {
-      const tab = {
-        cssClass: '',
-        group: tabGroup,
-        // Matches tab property to
-        id: '',
-        // FontAwesome Icon, if you so choose
-        icon: '',
-        // Run through localization
-        label: 'RISUS.Item.Tabs.',
-      };
-      switch (partId) {
-        case 'header':
-        case 'tabs':
-          return tabs;
-        case 'description':
-          tab.id = 'description';
-          tab.label += 'Description';
-          break;
-        case 'attributesFeature':
-          tab.id = 'attributes';
-          tab.label += 'Attributes';
-          break;
-      }
-      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
-      tabs[partId] = tab;
-      return tabs;
-    }, {});
   }
 
   /**

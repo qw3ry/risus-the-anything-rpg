@@ -7,7 +7,7 @@ export default class RisusActorBase extends foundry.abstract
     const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = {};
 
-    schema.biography = new fields.HTMLField();
+    schema.description = new fields.HTMLField();
 
     return schema;
   }

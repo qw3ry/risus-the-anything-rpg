@@ -5,55 +5,51 @@
       "Item": "Risus Item Sheet"
     },
     "Actor": {
-      "Tabs": {
-        "Biography": "Biography",
-        "Features": "Features",
-        "Gear": "Gear"
-      },
       "base": {
         "FIELDS": {
-          "biography": {"label": "Biography"}
+          "description": {
+            "label": "Description"
+          },
+          "cliche": {
+            "label": "Cliché"
+          }
         }
       },
       "Character": {
         "FIELDS": {
+          "hook": {
+            "label": "Hook"
+          },
+          "tale": {
+            "label": "Tale"
+          }
         }
       },
-      "NPC": {
+      "Npc": {
         "FIELDS": {
         }
       }
     },
     "Item": {
-      "Tabs": {
-        "Attributes": "Attributes",
-        "Description": "Description"
-      },
-      "Gear": {
+      "Cliche": {
         "FIELDS": {
-          "rollFormula": {"label": "Roll Formula"},
-          "numDice": {"label": "Number of Dice"},
-          "dieSize": {"label": "Die Size"},
-          "rollMod": {"label": "Roll Modifier"},
-          "quantity": {"label": "Quantity"},
-          "weight": {"label": "Weight"}
-        }
-      },
-      "Feature": {
-        "FIELDS": {
-          "rollFormula": {"label": "Roll Formula"},
-          "roll": {"label": "Number of Dice"}
+          "rollFormula": {
+            "label": "Roll Formula"
+          },
+          "roll": {
+            "label": "Number of Dice"
+          }
         }
       }
     }
   },
   "TYPES": {
     "Actor": {
-      "character": "Character"
+      "character": "Character",
+      "npc": "NPC"
     },
     "Item": {
-      "gear": "Gear",
-      "feature": "Feature"
+      "cliche": "Cliché"
     }
   }
 }

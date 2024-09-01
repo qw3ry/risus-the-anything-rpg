@@ -11,20 +11,14 @@
   "documentTypes": {
     "Actor": {
         "character": {
-            "htmlFields": ["biography"]
+            "htmlFields": ["description", "hook", "tale"]
         },
         "npc": {
-            "htmlFields": ["biography"]
+            "htmlFields": ["description"]
         }
     },
     "Item": {
-        "feature": {
-            "htmlFields": ["description"]
-        },
-        "gear": {
-            "htmlFields": ["description"]
-        },
-        "spell": {
+        "cliche": {
             "htmlFields": ["description"]
         }
     }
@@ -67,12 +61,6 @@
   "manifest": "https://raw.githubusercontent.com/qw3ry/risus-the-anything-rpg/main/system.json",
   "download": "https://github.com/qw3ry/risus-the-anything-rpg/archive/refs/heads/main.zip",
   "background": "systems/risus-the-anything-rpg/assets/anvil-impact.png",
-  "grid": {
-    "type": 1,
-    "distance": 5,
-    "units": "ft",
-    "diagonals": 0
-  },
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power"
 }

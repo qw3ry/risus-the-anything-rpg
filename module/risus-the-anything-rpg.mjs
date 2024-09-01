@@ -39,8 +39,7 @@ Hooks.once('init', function () {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: '1d20 + @abilities.dex.mod',
-    decimals: 2,
+    formula: '1d100'
   };
 
   // Define custom Document and DataModel classes
@@ -50,11 +49,12 @@ Hooks.once('init', function () {
   // for the base actor/item classes - they are included
   // with the Character/NPC as part of super.defineSchema()
   CONFIG.Actor.dataModels = {
-    character: models.RisusCharacter
+    character: models.RisusCharacter,
+    npc: models.RisusNpc
   };
   CONFIG.Item.documentClass = RisusItem;
   CONFIG.Item.dataModels = {
-    feature: models.RisusFeature
+    cliche: models.RisusCliche
   };
 
   // Active Effects are never copied to the Actor,

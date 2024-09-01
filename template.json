@@ -1,29 +1,28 @@
 {
   "Actor": {
-    "types": ["character"],
-    "htmlFields": ["biography"],
+    "types": ["character", "npc"],
     "templates": {
       "base": {
-        "biography": ""
+        "description": ""
+      },
+      "character": {
+        "hook": "",
+        "tale": ""
       }
     },
     "character": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "htmlFields": ["hook", "tale"]
     }
   },
   "Item": {
-    "types": ["gear", "feature"],
-    "htmlFields": ["description"],
+    "types": ["cliche"],
     "templates": {
       "base": {
         "description": ""
       }
     },
-    "gear": {
-      "templates": ["base"],
-      "quantity": 1
-    },
-    "feature": {
+    "cliche": {
       "templates": ["base"]
     }
   }

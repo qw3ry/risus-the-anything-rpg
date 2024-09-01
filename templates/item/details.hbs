@@ -1,0 +1,21 @@
+{{! Attributes Tab }}
+<section class='cliches'>
+    {{! As you add new fields, add them in here! }}
+    <div class='resource'>
+        <label class='resource-label'>{{localize 'RISUS.Item.Cliche.FIELDS.rollFormula.label'}}:</label>
+        <span>{{{enrichedFormula}}}</span><br>
+
+        <div class='grid grid-2col'>
+            <div class='grid-span-2'>
+                <label class='resource-label'>{{localize 'RISUS.Item.Cliche.FIELDS.roll.label'}}
+                    <input
+                            type='text'
+                            name='system.roll'
+                            value='{{system.roll}}'
+                            data-dtype='Number'
+                    />
+                </label>
+            </div>
+        </div>
+    </div>
+</section>
