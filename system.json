@@ -8,46 +8,18 @@
       "discord": "qw3ry"
     }
   ],
-  "documentTypes": {
-    "Actor": {
-        "character": {
-            "htmlFields": ["description", "hook", "tale"]
-        },
-        "npc": {
-            "htmlFields": ["description"]
-        }
-    },
-    "Item": {
-        "cliche": {
-            "htmlFields": ["description"]
-        }
-    }
-  },
-  "flags": {
-    "hotReload": {
-      "extensions": ["css", "html", "hbs", "json"],
-      "paths": ["css", "lang", "templates"]
-    }
-  },
-  "url": "https://github.com/qw3ry/risus-the-anything-rpg",
+  "url": "https://github.com/qw3ry/risus-the-anything-rpg/",
   "license": "LICENSE.txt",
   "readme": "README.md",
-  "bugs": "Replace this with a link to file issues or tickets",
   "changelog": "CHANGELOG.md",
-  "media": [
-    {
-      "type": "setup",
-      "url": "systems/risus-the-anything-rpg/assets/anvil-impact.png",
-      "thumbnail": "systems/risus-the-anything-rpg/assets/anvil-impact.png"
-    }
-  ],
   "version": "0.0.1",
   "compatibility": {
-    "minimum": "12.328",
-    "verified": "12.328"
+    "minimum": "10",
+    "verified": "12"
   },
-  "esmodules": ["module/risus-the-anything-rpg.mjs"],
-  "styles": ["css/risus-the-anything-rpg.css"],
+  "esmodules": ["module/simple.js"],
+  "styles": ["styles/simple.css"],
+  "packs": [],
   "languages": [
     {
       "lang": "en",
@@ -55,12 +27,6 @@
       "path": "lang/en.json"
     }
   ],
-  "packs": [],
-  "packFolders": [],
-  "socket": false,
   "manifest": "https://raw.githubusercontent.com/qw3ry/risus-the-anything-rpg/main/system.json",
-  "download": "https://github.com/qw3ry/risus-the-anything-rpg/archive/refs/heads/main.zip",
-  "background": "systems/risus-the-anything-rpg/assets/anvil-impact.png",
-  "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "power"
+  "download": "https://github.com/qw3ry/risus-the-anything-rpg/archive/refs/heads/main.zip"
 }

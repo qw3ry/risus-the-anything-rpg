@@ -1,0 +1,57 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" height="100" width="100" />
+        <div class="header-fields">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="Name" />
+            </h1>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="cliches">Cliches</a>
+        <a class="item" data-tab="settings">Settings</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Biography Tab --}}
+        <div class="tab description" data-group="primary" data-tab="description">
+            {{editor biographyHTML target="system.biography" button=true editable=editable engine="prosemirror"}}
+        </div>
+
+        {{!-- Attributes Tab --}}
+        <div class="tab cliches flexcolum" data-group="primary" data-tab="cliches">
+            {{#each systemData.attributes as |attr key|}}
+                {{#if attr.isCliche}}
+                    <div class="cliche">
+                        <a class="attribute-roll" data-label="{{attr.label}}" data-roll="{{attr.value}}d6x">
+                            <i class="fas fa-dice-d20"></i>
+                            {{attr.label}} ({{attr.value}})
+                        </a>
+                        <a class="button attribute-dec" data-key="{{key}}">-</a>
+                        <a class="button attribute-reset" data-key="{{key}}">{{localize "SIMPLE.ClicheReset"}}</a>
+                    </div>
+                {{/if}}
+            {{/each}}
+        </div>
+
+        {{!-- Settings Tab --}}
+        <div class="tab settings" data-group="primary" data-tab="settings">
+            <header class="attributes-header flexrow">
+                <span class="attribute-label">{{localize "SIMPLE.AttributeLabel"}}</span>
+                <span class="attribute-value">{{localize "SIMPLE.AttributeValue"}}</span>
+                <span class="attribute-dtype">{{localize "SIMPLE.AttributeDtype"}}</span>
+                <a class="attribute-control" data-action="create" data-group="{{group}}"><i class="fas fa-plus"></i></a>
+            </header>
+
+            {{!-- Render the attribute list partial. --}}
+            {{> "systems/risus-the-anything-rpg/templates/parts/sheet-attributes.html" attributes=systemData.attributes dtypes=dtypes}}
+        </div>
+    </section>
+</form>

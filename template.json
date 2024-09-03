@@ -1,29 +1,10 @@
 {
   "Actor": {
-    "types": ["character", "npc"],
-    "templates": {
-      "base": {
-        "description": ""
-      },
-      "character": {
-        "hook": "",
-        "tale": ""
-      }
-    },
+    "types": ["character"],
+    "htmlFields": ["biography"],
     "character": {
-      "templates": ["base"],
-      "htmlFields": ["hook", "tale"]
-    }
-  },
-  "Item": {
-    "types": ["cliche"],
-    "templates": {
-      "base": {
-        "description": ""
-      }
-    },
-    "cliche": {
-      "templates": ["base"]
+      "biography": "",
+      "attributes": {}
     }
   }
 }

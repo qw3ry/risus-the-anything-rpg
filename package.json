@@ -1,18 +1,21 @@
 {
   "name": "risus-the-anything-rpg",
-  "version": "3.0.0",
+  "version": "0.0.1",
   "description": "CSS compiler for the Risus system",
   "scripts": {
-    "build": "sass src/scss/risus-the-anything-rpg.scss css/risus-the-anything-rpg.css --style=expanded --no-source-map",
-    "watch": "sass src/scss/risus-the-anything-rpg.scss css/risus-the-anything-rpg.css --style=expanded --source-map --watch"
+    "css": "gulp css",
+    "watch": "gulp",
+    "gulp": "gulp"
   },
   "browserslist": [
     "last 3 versions"
   ],
-  "author": "Asacolips",
+  "author": "",
   "license": "MIT",
   "private": true,
-  "devDependencies": {
-    "sass": "^1.53.0"
-  }
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-less": "^4.0.1"
+  },
+  "devDependencies": {}
 }
